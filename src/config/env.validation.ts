@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsPort, IsString, validateSync } from "class-validator";
+import {
+    IsNotEmpty,
+    IsPort,
+    IsString,
+    IsUrl,
+    validateSync,
+} from "class-validator";
 import { plainToClass } from "class-transformer";
 
 class EnvironmentVariables {
@@ -25,6 +31,26 @@ class EnvironmentVariables {
     @IsNotEmpty()
     @IsString()
     POSTGRES_DATABASE: string;
+
+    @IsNotEmpty()
+    @IsUrl()
+    MAIL_HOST: string;
+
+    @IsNotEmpty()
+    @IsPort()
+    MAIL_PORT: string;
+
+    @IsNotEmpty()
+    @IsString()
+    MAIL_USER: string;
+
+    @IsNotEmpty()
+    @IsString()
+    MAIL_PASSWORD: string;
+
+    @IsNotEmpty()
+    @IsString()
+    MAIL_ADDRESS: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {
