@@ -1,16 +1,17 @@
 import { registerAs } from "@nestjs/config";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { ENV } from "../interfaces/env.interface";
-export const ENV_VARIABLES = process.env as any as ENV;
+import { DatabaseConfig } from "../interfaces/dbConfig";
+export const db = process.env as unknown as DatabaseConfig;
 
 export default registerAs(
     "database",
     (): TypeOrmModuleOptions => ({
         type: "postgres",
-        url: ENV_VARIABLES.POSTGRES_URL,
-        ssl: {
-            rejectUnauthorized: false,
-        },
+        host: db.POSTGRES_HOST,
+        port: db.POSTGRES_PORT,
+        username: db.POSTGRES_USER,
+        password: db.POSTGRES_PASSWORD,
+        database: db.POSTGRES_DATABASE,
         entities: [__dirname + "/../**/*.entity.{js,ts}"],
         synchronize: false,
         autoLoadEntities: true,

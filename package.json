@@ -1,8 +1,8 @@
 {
     "name": "lp-wallet",
     "version": "0.0.1",
-    "description": "",
-    "author": "",
+    "description": "LPWallet fund transfer service",
+    "author": "Afolabi Samuel Adedeji",
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
@@ -20,9 +20,8 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "typeorm": "node -r ts-node/register node_modules/.bin/typeorm",
-        "migration:generate": "yarn typeorm migration:generate -d src/migrations -n",
+        "migration:generate": "yarn typeorm migration:generate -d migrations -n",
         "migration:create": "yarn typeorm migration:create -n",
-        "migration:up": "yarn typeorm migration:run -f ormconfig.ts",
         "migration:down": "yarn typeorm:cli migration:revert",
         "migrate": "yarn typeorm migration:run"
     },
@@ -36,6 +35,8 @@
         "@nestjs/swagger": "^5.2.1",
         "@nestjs/typeorm": "8.0.0",
         "bcrypt": "^5.0.1",
+        "class-transformer": "^0.5.1",
+        "class-validator": "^0.13.2",
         "helmet": "^5.1.0",
         "joi": "^17.6.0",
         "passport": "^0.6.0",
