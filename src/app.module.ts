@@ -7,6 +7,7 @@ import database from "./config/database";
 import auth from "./config/auth";
 import { UsersModule } from "./users/users.module";
 import { MailModule } from "./mail/mail.module";
+import { TransferModule } from "./transfer/transfer.module";
 import { AuthenticationModule } from "./authentication/authentication.module";
 
 @Module({
@@ -27,6 +28,7 @@ import { AuthenticationModule } from "./authentication/authentication.module";
         MailModule,
         AuthenticationModule,
         UsersModule,
+        TransferModule,
     ],
 })
 export class AppModule {}
