@@ -7,6 +7,7 @@ import database from "./config/database";
 import auth from "./config/auth";
 import { UsersModule } from "./users/users.module";
 import { MailModule } from "./mail/mail.module";
+import { AuthenticationModule } from "./authentication/authentication.module";
 
 @Module({
     imports: [
@@ -24,8 +25,7 @@ import { MailModule } from "./mail/mail.module";
         }),
         EventEmitterModule.forRoot(),
         MailModule,
-        UsersModule,
-        MailModule,
+        AuthenticationModule,
         UsersModule,
     ],
 })
