@@ -5,7 +5,9 @@ import {
     BaseEntity,
     CreateDateColumn,
     UpdateDateColumn,
+    OneToOne,
 } from "typeorm";
+import { Wallet } from "../../transfer/entities/wallet.entity";
 
 @Entity()
 export class User extends BaseEntity {
@@ -36,6 +38,9 @@ export class User extends BaseEntity {
     @Column({ nullable: false })
     password: string;
 
+    @OneToOne(() => Wallet, (wallet) => wallet.user)
+    wallet: Wallet;
+
     @CreateDateColumn({
         type: "timestamp with time zone",
         default: () => "NOW()",
@@ -62,6 +67,15 @@ export class User extends BaseEntity {
             wallet: null,
         };
 
+        const wallet = await Wallet.findOne({ user_id: this.id });
+
+        if (wallet) {
+            data.wallet = {
+                walletId: wallet.id,
+                balance: wallet.balance,
+                isLocked: wallet.is_locked,
+            };
+        }
         return data;
     }
 }

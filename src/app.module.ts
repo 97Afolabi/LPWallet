@@ -25,6 +25,8 @@ import { MailModule } from "./mail/mail.module";
         EventEmitterModule.forRoot(),
         MailModule,
         UsersModule,
+        MailModule,
+        UsersModule,
     ],
 })
 export class AppModule {}
