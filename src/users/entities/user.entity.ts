@@ -6,8 +6,10 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToOne,
+    OneToMany,
 } from "typeorm";
 import { Wallet } from "../../transfer/entities/wallet.entity";
+import { Transactions } from "../../transfer/entities/transactions.entity";
 
 @Entity()
 export class User extends BaseEntity {
@@ -40,6 +42,9 @@ export class User extends BaseEntity {
 
     @OneToOne(() => Wallet, (wallet) => wallet.user)
     wallet: Wallet;
+
+    @OneToMany(() => Transactions, (transactions) => transactions.user)
+    transactions: Transactions[];
 
     @CreateDateColumn({
         type: "timestamp with time zone",

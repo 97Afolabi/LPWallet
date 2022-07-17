@@ -8,11 +8,18 @@ import { TransferService } from "./services/transfer.service";
 import { TransferController } from "./controllers/transfer.controller";
 import { UsersModule } from "../users/users.module";
 import { UserRepository } from "../users/repository/user.repository";
+import { TransactionsRepository } from "./repository/transactions.repository";
+import { TransactionDetailsRepository } from "./repository/transactionDetails.repository";
 import { MailService } from "../mail/services/mail.service";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([WalletRepository, UserRepository]),
+        TypeOrmModule.forFeature([
+            WalletRepository,
+            TransactionsRepository,
+            TransactionDetailsRepository,
+            UserRepository,
+        ]),
         MailModule,
         forwardRef(() => UsersModule),
     ],

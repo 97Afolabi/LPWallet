@@ -45,4 +45,36 @@ export class MailService {
             MailType.OTP,
         );
     }
+
+    async creditNotification(
+        email: string,
+        sender: string,
+        recipient: string,
+        amount: number,
+        narration: string,
+    ) {
+        const content = `Hi ${recipient}!\nYou just received a transfer of $${amount} from ${sender}.\nNarration: ${narration}`;
+        return await this.sendMail(
+            email,
+            "Credit notification",
+            content,
+            MailType.ALERT,
+        );
+    }
+
+    async debitNotification(
+        email: string,
+        sender: string,
+        recipient: string,
+        amount: number,
+        narration: string,
+    ) {
+        const content = `Hi ${sender}!\nYou just made a transfer of $${amount} to ${recipient}.\nNarration: ${narration}`;
+        return await this.sendMail(
+            email,
+            "Debit notification",
+            content,
+            MailType.ALERT,
+        );
+    }
 }

@@ -5,32 +5,34 @@ import {
     BaseEntity,
     CreateDateColumn,
     UpdateDateColumn,
-    JoinColumn,
-    OneToOne,
+    ManyToOne,
     OneToMany,
 } from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { TransactionDetails } from "./transactionDetails.entity";
 
 @Entity()
-export class Wallet extends BaseEntity {
+export class Transactions extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column({ type: "uuid", nullable: false, unique: true })
-    user_id: string;
+    @Column({ type: "money", nullable: false })
+    amount: number;
 
-    @Column({ type: "money", nullable: false, default: 0 })
-    balance: number;
+    @Column({ nullable: false })
+    narration: string;
 
     @Column({ default: false })
-    is_locked: boolean;
+    is_flagged: boolean;
 
-    @Column({ nullable: false, default: "1234" })
-    pin: string;
+    @Column({
+        type: "enum",
+        enum: ["Processing", "Successful", "Failed"],
+        default: "Processing",
+    })
+    status: string;
 
-    @OneToOne(() => User, (user) => user.wallet)
-    @JoinColumn()
+    @ManyToOne(() => User, (user) => user.transactions)
     user: User;
 
     @OneToMany(
