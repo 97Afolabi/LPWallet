@@ -1,13 +1,14 @@
-import { BadRequestException, Injectable, Logger } from "@nestjs/common";
+import {
+    BadRequestException,
+    Injectable,
+    Logger,
+    NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { EventEmitter2 } from "@nestjs/event-emitter";
 import { SuccessResponse } from "../../utils/successResponse";
 import { TransactionPinDTO } from "../dto/updateTransactionPin.dto";
 import { UserRepository } from "../../users/repository/user.repository";
 import { WalletRepository } from "../repository/wallet.repository";
-import { TransactionsRepository } from "../repository/transactions.repository";
-import { TransactionDetailsRepository } from "../repository/transactionDetails.repository";
-import { MailService } from "../../mail/services/mail.service";
 
 @Injectable()
 export class TransferService {
@@ -50,6 +51,24 @@ export class TransferService {
             await user.save();
 
             return new SuccessResponse("Transaction pin updated successfully");
+        } catch (error) {
+            this.logger.error(error);
+            throw new BadRequestException(error);
+        }
+    }
+
+    async userLookup(identity: string): Promise<SuccessResponse> {
+        try {
+            const recipient = await this.usersRepository.userLookup(identity);
+
+            if (!recipient || !recipient.wallet) {
+                throw new NotFoundException("User not found");
+            }
+
+            return new SuccessResponse("Recipient's data", {
+                firstName: recipient.first_name,
+                lastName: recipient.last_name,
+            });
         } catch (error) {
             this.logger.error(error);
             throw new BadRequestException(error);

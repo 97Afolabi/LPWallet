@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiBody, ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import { AuthUser } from "../../authentication/decorators/authuser.decorator";
 import { UserAuthGuard } from "../../authentication/guards/user.guard";
@@ -29,5 +29,17 @@ export class TransferController {
             transactionPinDTO,
             user.id,
         );
+    }
+
+    @ApiOperation({
+        summary: "Fetch transfer recipient's details",
+    })
+    @ApiBearerAuth()
+    @Get("lookup/:identity")
+    async userLookup(
+        @Param("identity") identity: string,
+        @AuthUser() user: User,
+    ) {
+        return this.transferService.userLookup(identity);
     }
 }
